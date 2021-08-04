@@ -205,6 +205,31 @@ for index, row in new_data.iterrows(): # Iterate through the row of the data fra
 		time2 = inter_df2["Seconds"].div(60)
 		elapsed_time1 = time1.apply(lambda row: row - time1.iloc[0]) # Calculate the elapsed time in the run
 		elapsed_time2 = time2.apply(lambda row: row - time2.iloc[0]) # Calculate the elapsed time in the run
+
+		last_time_1 = elapsed_time1.iloc[[0, -1][1]]
+		last_time_2 = elapsed_time2.iloc[[0, -1][1]]
+		print("AAAAAAA")
+		print(time1)
+		print(last_time_1)
+
+		
+		if sample[0:1] == 'x':
+			max_time1 = 60
+			max_time2 = 60
+			if last_time_1 < 60:
+				max_time1 = last_time_1
+			if last_time_2 < 60:
+				max_time2 = last_time_2
+		else:
+			max_time1 = 90
+			max_time2 = 90
+			if last_time_1 < 90:
+				max_time1 = last_time_1
+			if last_time_2 < 90:
+				max_time2 = last_time_2
+
+		
+
 		# Extract the Sample and IAC data
 		Sample1 = inter_df1[well_Sample1]
 		IAC1 = inter_df1[well_IAC1]
@@ -223,6 +248,7 @@ for index, row in new_data.iterrows(): # Iterate through the row of the data fra
 		plt.title(title1, pad = -1, fontsize=4, fontweight='bold')
 		plt.xlabel('Time (min)', labelpad=pad_label, fontsize=4)
 		plt.ylabel('Signal (a.u.)', labelpad=pad_label, fontsize=4)
+		plt.xlim([0, max_time1])
 		table = plt.table(cellText=[[sample_time1], [IAC_time1]], bbox = [0.07, 0.77, 0.12, 0.17], zorder=2.5)
 		table.get_celld()[(0,0)].get_text().set_color(color = '#00A651')
 		table.get_celld()[(1,0)].get_text().set_color(color = '#2E3191')
@@ -236,6 +262,7 @@ for index, row in new_data.iterrows(): # Iterate through the row of the data fra
 		plt.title(title2, pad = -1, fontsize=4, fontweight='bold')
 		plt.xlabel('Time (min)', labelpad=pad_label, fontsize=4)
 		plt.ylabel('Signal (a.u.)', labelpad=pad_label, fontsize=4)
+		plt.xlim([0, max_time2])
 		table = plt.table(cellText=[[sample_time2], [IAC_time2]], bbox = [0.07, 0.77, 0.12, 0.17], zorder=2.5)
 		table.get_celld()[(0,0)].get_text().set_color(color = '#00A651')
 		table.get_celld()[(1,0)].get_text().set_color(color = '#2E3191')
